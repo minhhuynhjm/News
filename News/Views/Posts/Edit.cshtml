@@ -1,0 +1,271 @@
+﻿@model News.Models.PostViewModel
+
+@{
+
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h2>Update Post</h2>
+
+@using (Html.BeginForm("Edit", "Posts", FormMethod.Post, new { enctype = "multipart/form-data", id = "fPost" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.PostId)
+    @Html.HiddenFor(model => model.Image)
+    @Html.HiddenFor(model => model.PostDate)
+    <hr />
+
+    <div class="col-xs-9">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.PostTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "Post Title", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.PostTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.TextAreaFor(model => model.PostDecription, new { @placeholder = "Enter Decription Here", @class = "form-control", @rows = "10", @cols = "10", required = "required" })
+                    @Html.ValidationMessageFor(model => model.PostDecription, "", new { @class = "text-dange" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.TextAreaFor(model => model.PostContent, new { @class = "form-control tinymce mceEditor", @id = "my_editor", @rows = "30", @cols = "20", required = "required" })
+                    @Html.ValidationMessageFor(model => model.PostContent, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-xs-3">
+
+        <div class="form-group">
+            <div class="col-md-10" style="">
+                <img src="@Url.Content(Model.Image)" + alt="" height=120 width=180 id="imagePreview" />
+                <div class="spacingtop">
+                    <input type="file" name="Image" id="file" class="myfile" accept="image/jpeg, image/png" onchange="ShowImagePreview(this,document.getElementById('imagePreview'))" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label col-md-10 spacingtop" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Tag, new { @class = "form-control bootstrap-tagsinput", @id = "input-tags" })
+                @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Categories", new { @class = "control-label col-md-10 spacingtop" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CategoryId, null, new { @class = "form-control select", @placeholder = "Categories" })
+                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PostStatus, htmlAttributes: new { @class = "control-label col-md-10 spacingtop" })
+            <div class="col-md-10 ">
+                @Html.EditorFor(model => model.PostStatus)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CommentStatus, htmlAttributes: new { @class = "control-label col-md-10 spacingtop" })
+            <div class="col-md-10 ">
+                @Html.EditorFor(model => model.CommentStatus)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 spacingtop">
+                <input type="submit" value="Save" class="btn btn-primary" id="btnSubmit" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10 spacingtop">
+                <input type="button" onclick="location.href='@Url.Action("Index","Posts")'" value="Back to List" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<iframe id="form_target" name="form_target" style="display:none"></iframe>
+
+<form id="my_form" action="/Posts/Upload" target="form_target" method="post" enctype="multipart/form-data" style="width:0;height:0;overflow:hidden">
+    <input name="file" type="file" onchange="$('#my_form').submit();this.value='';">
+</form>
+
+<!-- Tags Scripts and CSS -->
+<script src="~/Scripts/bootstrap-tagsinput.js"></script>
+<link href="~/Content/bootstrap-tagsinput.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap3-typeahead.min.js"></script>
+<!-- Tags Scripts and CSS -->
+<!-- TinyInit Script -->
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+<!-- End TinyInit Script -->
+
+<script type="text/javascript">
+
+    tinymce.init({
+        selector: "textarea#my_editor",
+        theme: "modern",
+        relative_urls: false,
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern imagetools image code"
+        ],
+        toolbar: 'undo redo | link image | code',
+        image_title: true,
+        automatic_uploads: true,
+        toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        toolbar2: "print preview media | forecolor backcolor emoticons | ltr rtl",
+        image_advtab: true,
+        templates: [
+            { title: 'Test template 1', content: 'Test 1' },
+            { title: 'Test template 2', content: 'Test 2' }
+        ],
+        file_picker_types: 'image',
+        // and here's our custom image picker
+        file_picker_callback: function (cb, value, meta) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+
+            // Note: In modern browsers input[type="file"] is functional without 
+            // even adding it to the DOM, but that might not be the case in some older
+            // or quirky browsers like IE, so you might want to add it to the DOM
+            // just in case, and visually hide it. And do not forget do remove it
+            // once you do not need it anymore.
+
+            input.onchange = function () {
+                var file = this.files[0];
+
+                var reader = new FileReader();
+                reader.onload = function () {
+                    // Note: Now we need to register the blob in TinyMCEs image blob
+                    // registry. In the next release this part hopefully won't be
+                    // necessary, as we are looking to handle it internally.
+                    var id = 'blobid' + (new Date()).getTime();
+                    var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                    var base64 = reader.result.split(',')[1];
+                    var blobInfo = blobCache.create(id, file, base64);
+                    blobCache.add(blobInfo);
+
+                    // call the callback and populate the Title field with the file name
+                    cb(blobInfo.blobUri(), { title: file.name });
+                };
+                reader.readAsDataURL(file);
+            };
+
+            input.click();
+        }
+    });
+
+    // Default initialization
+    $('.select').select2({
+        minimumResultsForSearch: Infinity
+    });
+
+    $('#btnSubmit').click(function (e) {
+        if ($("#fPost").valid()) {
+            e.preventDefault();
+            var form = $('#fPost');
+            var formAction = $("#fPost").attr("action");
+            var fdata = new FormData(form.get(0));
+
+            fdata.append('vm[PostTitle]', $("#PostTitle").val());
+            fdata.append('vm[PostDecription]', $("#PostDecription").val());
+            fdata.append('vm[Tag]', $("#input-tags").val());
+            fdata.append('vm[CategoryId]', $("#CategoryId").val());
+            fdata.append('vm[PostId]', $("#PostId").val());
+            fdata.append('vm[Image]', $("#Image").val());
+            fdata.append('vm[PostDate]', $("#PostDate").val());
+            fdata.append('vm[PostStatus]', $("#PostStatus").val());
+            fdata.append('vm[CommentStatus]', $("#CommentStatus").val());
+            fdata.append('vm[PostContent]', tinymce.get('my_editor').getContent());
+
+            $.ajax({
+                type: 'POST',
+                url: formAction,
+                data: fdata,
+                processData: false,
+                contentType: false,
+                async: true
+            }).done(function (result) {
+                // do something with the result now
+                if (result.success) {
+                    swal({
+                        title: 'Save success!',
+                        text: '',
+                        type: 'success',
+                        showCloseButton: true,
+                        confirmButtonClass: 'btn btn-primary',
+                        cancelButtonClass: 'btn btn-light'
+                    }).then(function () {
+                        window.location = '@Url.Action("Index", "Posts")';
+                    }).catch(swal.noop);
+                }
+                else {
+                    swal({
+                        title: 'An error occurred, please try again later!',
+                        text: '',
+                        type: 'error',
+                        padding: 30,
+                        showCloseButton: true,
+                        cancelButtonClass: 'btn btn-light',
+                        confirmButtonClass: 'btn btn-primary'
+                    });
+                }
+            }).fail(function () {
+                console.log("Error!");
+            });
+        }
+        else {
+            return false;
+        }
+    });
+
+    $('#input-tags').tagsinput({
+        tagClass: 'big',
+        typeahead: {
+            //source: ['caferacer', 'news', 'learning', 'react', 'angular', 'font-end']
+            source: function (query, process) {
+                return $.get('/Posts/GetAllTag', function (data) {
+
+                    return data;
+                });
+            }
+        }
+
+    });
+    $('.bootstrap-tagsinput').change(function () {
+        $(this).find('input').val('');
+    });
+
+    $('#submit').click(function () {
+        $('#submit').hide();
+    });
+
+    function ShowImagePreview(imageUploader, previewImage) {
+        if (imageUploader.files && imageUploader.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(previewImage).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(imageUploader.files[0]);
+        }
+    }
+</script>
+
+<!-- CSS Post-->
+<link href="~/Content/TinyPost.css" rel="stylesheet" />
+<!-- End CSS Post-->

@@ -1,0 +1,27 @@
+﻿@model News.Models.CommentViewModel
+
+<div class="media">
+    <div class="media-left">
+        <img class="media-object" src="@Url.Content(Model.Image)" alt="">
+    </div>
+    <div class="media-body">
+        <div class="media-heading">
+            <h4>@Model.CommentAuthor</h4>
+            <time class="timeago" datetime="@Model.CommentDate">@Model.CommentDate</time>
+            <a href='javascript:void(0)' data-id="@Model.CommentId" class="reply">Reply</a>
+        </div>
+        <p>@Model.CommentContent</p>
+        <div class='children parentComment-@Model.CommentId'>
+        </div>
+        <div class="form-group rep-form-@Model.CommentId" style="display:none;">
+            <input class="input replyContent-@Model.CommentId" type="text" name="name">
+            <button class="primary-button btnReplySaveComment" style="margin-top:5px" data-id="@Model.CommentId">Reply</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("time.timeago").timeago();
+    });
+</script>

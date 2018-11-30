@@ -1,0 +1,237 @@
+﻿@model News.Models.PostViewModel
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+@Html.HiddenFor(model => model.PostId)
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Post content -->
+            <div class="col-md-8">
+                <div class="section-row sticky-container">
+                    <div class="main-post">
+                        <h3>@Model.PostTitle</h3>
+                        @Html.Raw(Model.PostContent)
+                    </div>
+                    <div class="post-shares sticky-shares">
+                        <a href="#" class="share-facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="share-twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="share-google-plus"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="share-pinterest"><i class="fa fa-pinterest"></i></a>
+                        <a href="#" class="share-linkedin"><i class="fa fa-linkedin"></i></a>
+                        <a href="#"><i class="fa fa-envelope"></i></a>
+                    </div>
+                </div>
+                <!-- comments -->
+                <div class="section-row">
+                    <div class="section-title">
+                        <h2>@Model.PostTitle</h2>
+                    </div>
+
+                    <div class="post-comments">
+                        <!-- comment -->
+                        <div class="comment-list">
+
+                        </div>
+                        <!-- /comment -->
+                    </div>
+                </div>
+                <!-- /comments -->
+                <!-- reply -->
+                <div class="section-row">
+                    <div class="section-title">
+                        <h2>Leave a reply</h2>
+                        
+                    </div>
+                    <form class="post-reply">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea class="input" id="txtContent" name="message" placeholder="Message"></textarea>
+                                </div>
+                                <button class="primary-button btnSaveComment">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /reply -->
+            </div>
+            <!-- /Post content -->
+            <!-- aside -->
+            <div class="col-md-4" id="idRightLayout">
+
+            </div>
+            <!-- /aside -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+<style>
+    img {
+        width: 100%;
+        height: auto;
+        max-width: 660px;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.29.0/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.29.0/sweetalert2.css">
+<script type="text/javascript">
+    $(document).ready(function () {
+        var id = parseInt($('#PostId').val());
+
+        $.ajax({
+            url: '@Url.Action("_RightLayout", "Client")',
+            success: function (data) {
+                if (data !== "") {
+                    var result = $("#idRightLayout");
+
+                    result.html(data);
+                }
+                else {
+                    swal({
+                        title: 'Error Load Data',
+                        text: '',
+                        type: 'error',
+                        padding: 30,
+                        showCloseButton: true,
+                        cancelButtonClass: 'btn btn-light',
+                        confirmButtonClass: 'btn btn-primary',
+                    });
+                }
+            }
+        });
+
+        /* Load Data Comment */
+        $(function () {
+            var id = parseInt($('#PostId').val());
+            $.ajax({
+                url: '@Url.Action("DetailCommentPartial", "Client")',
+                data: { id: id },
+                type: "GET",
+                dataType: "html",
+                success: function (response) {
+                    $('.comment-list').html(response);
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                    alert(status);
+                    alert(error);
+                }
+            });
+        });
+        /* End Load Data Comment */
+
+    });
+
+    /* Add Comment */
+    $(".btnSaveComment").click(function (e) {
+        if ($("#txtContent").val().trim() === "") {
+            e.preventDefault();
+            return;
+        }
+        var vm = {};
+        vm.CommentContent = $("#txtContent").val();
+        vm.PostId = $("#PostId").val();
+
+        var token = $('[name=__RequestVerificationToken]').val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("AddCommentParentPartial", "Client")',
+            dataType: "html",
+            data: { __RequestVerificationToken: token, vm},
+
+            success: function (response) {
+                if (response !== "") {
+                    $('#txtContent').val('');
+                    $('.comment-list').append(response);
+                }
+                else {
+                    swal({
+                        title: 'Please login to post comments!',
+                        text: '',
+                        type: 'error',
+                        padding: 30,
+                        showCloseButton: true,
+                        cancelButtonClass: 'btn btn-light',
+                        confirmButtonClass: 'btn btn-primary',
+                    });
+                }
+            },
+            error: function () {
+                $('#alter-div').remove();
+                var rows = '<div class="alert alert-danger col-md-12" role="alert" style="text-align: center;" id="alter-div" >You must login to comment</div >';
+                $('#alter-error').append(rows);
+                //alert("Error while inserting data");
+                //error: function(xhr, err) {
+                //    alert("readyState: " + xhr.readyState + "\nstatus: " + xhr.status);
+                //    alert("responseText: " + xhr.responseText);
+                //}
+            }
+        });
+        return false;
+    });
+    /* End Add Comment */
+
+    /* Reply Commment */
+    $(document).on("click", "a.reply", function () {
+        var CommentId = $(this).attr('data-id');
+
+        $(".rep-form-" + CommentId).show();//.slideToggle()
+        $(".replyContent-" + CommentId).focus();
+    });
+
+    $(document).on("click", ".btnReplySaveComment", function (data) {
+
+        Id = $(this).data("id");
+
+        if ($(".replyContent-" + Id).val().trim() === "") {
+            data.preventDefault();
+            return;
+        }
+        var vm = {};
+        vm.CommentContent = $(".replyContent-"+Id).val();
+        vm.PostId = $("#PostId").val();
+        vm.CommentParent = Id;
+
+        var token = $('[name=__RequestVerificationToken]').val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("AddCommentChildPartial", "Client")',
+            dataType: "html",
+            data: { __RequestVerificationToken: token, vm},
+            success: function (response) {
+                if (response !== "") {
+                    $(".replyContent-" + Id).val('');
+                    $(".parentComment-" + Id).append(response);
+                } else {
+                    swal({
+                        title: 'Please login to post comments!',
+                        text: '',
+                        type: 'error',
+                        padding: 30,
+                        showCloseButton: true,
+                        cancelButtonClass: 'btn btn-light',
+                        confirmButtonClass: 'btn btn-primary',
+                    });
+                }
+            },
+            error: function () {
+                $('#alter-div').remove();
+                var rows = '<div class="alert alert-danger col-md-12" role="alert" style="text-align: center;" id="alter-div" >You must login to comment</div >';
+                $('#alter-error').append(rows);
+            }
+        });
+        return false;
+    });
+    /* End Reply Commment */
+
+
+
+</script>

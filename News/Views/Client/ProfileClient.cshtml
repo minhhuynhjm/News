@@ -1,0 +1,74 @@
+﻿@model News.Models.UserViewModel
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+<div class="container bootstrap snippet" style="padding-top:100px">
+    <div class="row">
+        <form class="form" action="/Client/ProfileClient" method="post" id="registrationForm" enctype="multipart/form-data">
+            <!--/col-3-->
+            <div class="col-sm-12">
+
+                <div class="tab-content">
+                    <div class="col-sm-3">
+                        <div class="text-center">
+                            <img src="@Url.Content(Model.Image)" class="avatar img-circle img-thumbnail" alt="avatar" id="imagePreview">
+                            <div class="upload-btn-wrapper spacingtop">
+                                <input type="file" name="Image" class="text-center center-block file-upload" onchange="ShowImagePreview(this,document.getElementById('imagePreview'))">
+                                <button class="btn btn-success">Change image</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+
+                        <div class="tab-pane active" id="home">
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model => model.Image)
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" value="@Html.DisplayFor(model => model.UserName)" name="UserName" id="UserName" title="enter your username." readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" value="@Html.DisplayFor(model => model.Email)" name="Email" id="email" placeholder="you@email.com" title="enter your email." readonly="readonly">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-6" style="padding-top:15px">
+                                    <label for="last_name">Full name</label>
+                                    <input type="text" class="form-control" value="@Html.DisplayFor(model => model.FullName)" name="FullName" id="FullName" placeholder="Full Name" title="enter your last name if any.">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-6" style="padding-top:15px">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" value="@Html.DisplayFor(model => model.PhoneNumber)" name="PhoneNumber" id="phone" placeholder="enter phone" title="enter your phone number if any.">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <br>
+                                    <a href="/UI/ChangePasswordClient" class="btn btn-success">Change Password</a>
+                                    <button class="btn btn-success" type="submit" style="right:0; position:absolute; margin-right:12.5px;"> Save</button>
+
+                                </div>
+                            </div><!--/tab-content-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+    </div>
+</div><!--/tab-pane-->
+<!-- Image Change Script -->
+<script src="~/Scripts/Image.js"></script>
+<!-- End Image Change Script -->
+<!-- CSS Post-->
+<link href="~/Content/TinyPost.css" rel="stylesheet" />
+<!-- End CSS Post-->

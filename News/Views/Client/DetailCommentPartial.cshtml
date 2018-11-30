@@ -1,0 +1,56 @@
+﻿@model IEnumerable<News.Models.CommentViewModel>
+
+@foreach (var item in Model)
+{
+    var saveItem = item.CommentId;
+    if (item.CommentParent == 0)
+    {
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="@Url.Content(item.Image)" alt="">
+            </div>
+            <div class="media-body">
+                <div class="media-heading">
+                    <h4>@item.CommentAuthor</h4>
+                    <time class="timeago" datetime="@item.CommentDate">@item.CommentDate</time>
+                    <a href='javascript:void(0)' data-id="@item.CommentId" class="reply">Reply</a>
+                </div>
+                <p>@item.CommentContent</p>
+                <div class="parentComment-@item.CommentId">
+                    @foreach (var child in Model)
+                    {
+                        if (child.CommentParent == saveItem)
+                        {
+                            <div class="media">
+                                <div class="media-left">
+                                    <img class="media-object" src="@Url.Content(child.Image)" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <div class="media-heading">
+                                        <h4>@child.CommentAuthor</h4>
+                                        <time class="timeago" datetime="@child.CommentDate">@child.CommentDate</time>
+                                        <a href='javascript:void(0)' data-id="@child.CommentParent" class="reply">Reply</a>
+                                    </div>
+                                    <p>@child.CommentContent</p>
+
+                                </div>
+
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="form-group rep-form-@item.CommentId" style="display:none;">
+                    <input class="input replyContent-@item.CommentId" type="text" name="name">
+                    <button class="primary-button btnReplySaveComment" style="margin-top:5px" data-id="@item.CommentId">Reply</button>
+                </div>
+            </div>
+        </div>
+    }
+}
+<!-- comment -->
+<!-- /comment -->
+<script>
+    $(document).ready(function () {
+        $("time.timeago").timeago();
+    });
+</script>

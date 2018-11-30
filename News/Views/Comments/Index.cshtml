@@ -1,0 +1,185 @@
+﻿@model News.Models.CommentViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Basic datatable -->
+<div class="panel panel-flat">
+    <div class="panel-heading"> 
+        <h3>Comments</h3>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <li><a data-action="reload"></a></li>
+                <li><a data-action="close"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <table class="table datatable-basic" id="tblData">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.CommentId)</th>
+                <th>@Html.DisplayNameFor(model => model.CommentDate)</th>
+                <th>@Html.DisplayNameFor(model => model.CommentAuthor)</th>
+                <th>@Html.DisplayNameFor(model => model.CommentContent)</th>
+                <th>@Html.DisplayNameFor(model => model.PostTitle)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!-- /basic datatable -->
+
+<script>
+    $(document).ready(function () {
+        $('#tblData').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "filter": false,
+            "orderMulti": false,
+            "ordering": true,
+            "order": [[0, "desc"]],
+            "info": true,
+            "ajax": {
+                "url": "/Comments/LoadData",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columnDefs":
+                [{
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }],
+            "columns": [   
+                { "data": "CommentDate", "orderable": false },
+                { "data": "CommentDate" , "orderable": false},
+                { "data": "CommentAuthor", "orderable": false },
+                {
+                    data: null, orderable: false, render: function (data, type, full) {
+                        var _des = data.CommentContent;
+                        if (data.CommentContent !== null) {
+                            if (data.CommentContent.length > 40) {
+                                _des = data.CommentContent.substring(0, 39) + " ...";
+                            }
+                        }
+                        return _des;
+                    }
+                },
+                {
+                    data: null, orderable: false, render: function (data, type, full) {
+                        var _des = data.PostTitle;
+                        if (data.PostTitle !== null) {
+                            if (data.PostTitle.length > 49) {
+                                _des = data.PostTitle.substring(0, 49) + " ...";
+                            }
+                        }
+                        return '<a href="Client/Detail/'+ data.PostId+'">' + _des + '</a>';
+                    }
+                },
+                {
+                    data: null, orderable: true, render: function (data, type, full) {
+                        if (data.Status) {
+                            return '<span class="label bg-success-400">Approve</span>';
+                        }
+                        return '<span class="label bg-danger">Pending</span>';
+                    }
+                },
+                {
+                    data: null, orderable: false, render: function (data, type, full) {
+                        return '<div class="btn-group">' +
+                            '<button onclick=editClicked(' + data.CommentId + '); class="btn btn-warning"><i class="icon-checkmark-circle2"></i></button>' +
+                            '<button onclick=deleteClicked(' + data.CommentId + '); class="btn btn-danger"><i class="icon-x"></i></button>' +
+                            '</div>' +
+                            '';
+                    }
+                }
+            ]
+        });
+    });
+
+    function editClicked(id) {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Edit","Comments")/' + id,
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    swal({
+                        title: 'Save success!',
+                        text: '',
+                        type: 'success',
+                        showCloseButton: false,
+                        confirmButtonClass: 'btn btn-primary'
+                    }).then(function () {
+                            window.location = '@Url.Action("Index", "Comments")';
+                    }).catch(swal.noop);
+                }
+                else {
+                    swal({
+                        title: 'An error occurred, please try again later!',
+                        text: '',
+                        type: 'error',
+                        padding: 30,
+                        showCloseButton: true,
+                        cancelButtonClass: 'btn btn-light',
+                        confirmButtonClass: 'btn btn-primary',
+                    });
+                }
+            }
+        });
+    }
+
+    function deleteClicked(id) {
+
+    swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then(function (dismiss) {
+
+        if (dismiss.value === true) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Delete","Comments")/' + id,
+                contentType: 'application/json;',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        swal({
+                            title: 'Delete success!',
+                            text: '',
+                            type: 'success',
+                            showCloseButton: false,
+                            confirmButtonClass: 'btn btn-primary'
+                        }).then(function () {
+                                window.location = '@Url.Action("Index", "Comments")';
+                        }).catch(swal.noop);
+                    }
+                    else {
+                        swal({
+                            title: 'An error occurred, please try again later!',
+                            text: '',
+                            type: 'error',
+                            padding: 30,
+                            showCloseButton: true,
+                            cancelButtonClass: 'btn btn-light',
+                            confirmButtonClass: 'btn btn-primary',
+                        });
+                    }
+                }
+            });
+        }
+    });
+}
+</script>

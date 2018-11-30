@@ -1,0 +1,33 @@
+﻿<!-- post widget -->
+<div class="aside-widget">
+    <div class="section-title">
+        <h2>Recent Posts</h2>
+    </div>
+
+    @foreach (var item in ViewBag.Recent)
+    {
+        <div class="post post-widget">
+            <a class="post-img" href="@Url.Action("Detail", "Client", new { id = item.PostId })"><img src="@Url.Content(item.Image)" height="90" width="90"></a>
+            <div class="post-body">
+                <h3 class="post-title"><a href="@Url.Action("Detail", "Client", new { id = item.PostId })">@item.PostTitle</a></h3>
+            </div>
+        </div>
+    }
+</div>
+
+
+<!-- tags -->
+<div class="aside-widget">
+    <div class="section-title">
+        <h2>Tags</h2>
+    </div>
+    <div class="tags-widget">
+        <ul>
+            @foreach (var item in ViewBag.Tag)
+            {
+                <li><a href="@Url.Action("Tags", "Client", new { id = item })">@item</a></li>
+            }
+        </ul>
+    </div>
+</div>
+<!-- /tags -->

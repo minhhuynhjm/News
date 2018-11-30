@@ -1,0 +1,151 @@
+﻿@model News.Models.PostViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Basic datatable -->
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <button type="button" onclick="location.href='@Url.Action("Create","Posts")'" class="btn btn-primary"><i class="icon-add position-left"></i>Create new post</button>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <li><a data-action="reload"></a></li>
+                <li><a data-action="close"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <table class="table datatable-basic" id="tblData">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.PostId)</th>
+                <th>@Html.DisplayNameFor(model => model.PostModify)</th>
+                <th>@Html.DisplayNameFor(model => model.PostTitle)</th>
+                <th>@Html.DisplayNameFor(model => model.UserName)</th>
+                <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+                <th>@Html.DisplayNameFor(model => model.PostStatus)</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!-- /basic datatable -->
+
+<script>
+    $(document).ready(function () {
+        $('#tblData').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "filter": true,
+            "orderMulti": false,
+            "ordering": true,
+            "order": [[0, "desc"]],
+            "info": true,
+            "ajax": {
+                "url": "/Posts/LoadData",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columnDefs":
+                [{
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }],
+            "columns": [
+                { "data": "PostId", "name": "PostId", "autoWidth": true, "orderable": false },
+                { "data": "PostModify", "name": "PostModify", "autoWidth": true, "orderable": false},
+                {
+                    data: null, orderable: false, render: function (data, type, full) {
+                        var _des = data.PostTitle;
+                        if (data.PostTitle !== null) {
+                            if (data.PostTitle.length > 49) {
+                                _des = data.PostTitle.substring(0, 49) + " ...";
+                            }
+                        }
+                        return '<a href="Client/Detail/' + data.PostId + '">' + _des + '</a>';
+                    }
+                },
+                { "data": "UserName", "name": "UserName", "autoWidth": true, "orderable": false },
+                { "data": "CategoryName", "name": "CategoryName", "autoWidth": true, "orderable": false },
+                {
+                    data: null, orderable: true, render: function (data, type, full) {
+                        if (data.PostStatus) {
+                            return '<span class="label bg-success-400">Approve</span>';
+                        }
+                        return '<span class="label bg-danger">Pending</span>';
+                    }
+                },
+                {
+                    data: null, orderable: false, render: function (data, type, full) {
+                        return '<div class="btn-group">' +
+                            '<button onclick=previewClicked(' + data.PostId + '); class="btn btn-default"><i class="icon-eye"></i></button>' +
+                            '<button onclick=editClicked(' + data.PostId + '); class="btn btn-warning"><i class="icon-pencil7"></i></button>' +
+                            '<button onclick=deleteClicked(' + data.PostId + '); class="btn btn-danger"><i class="icon-x"></i></button>' +
+                            '</div>' +
+                            '';
+                    }
+                }
+            ]
+        });
+    });
+
+    function editClicked(id) {
+        location.href = '/Posts/Edit/' + id;
+    }
+
+    function previewClicked(id) {
+        location.href = '/Client/Detail/' + id;
+    }
+
+    function deleteClicked(id) {
+
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function (dismiss) {
+
+            if (dismiss.value === true) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Delete","Posts")/' + id,
+                    contentType: 'application/json;',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            swal({
+                                title: 'Delete success!',
+                                text: '',
+                                type: 'success',
+                                showCloseButton: false,
+                                confirmButtonClass: 'btn btn-primary'
+                            }).then(function () {
+                                 window.location = '@Url.Action("Index", "Posts")';
+                            }).catch(swal.noop);
+                        }
+                        else {
+                            swal({
+                                title: 'An error occurred, please try again later!',
+                                text: '',
+                                type: 'error',
+                                padding: 30,
+                                showCloseButton: true,
+                                cancelButtonClass: 'btn btn-light',
+                                confirmButtonClass: 'btn btn-primary',
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>

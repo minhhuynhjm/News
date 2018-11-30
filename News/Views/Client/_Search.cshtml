@@ -1,0 +1,72 @@
+﻿@model PagedList.IPagedList<News.Models.PostViewModel>
+@using PagedList.Mvc;
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row" id="tblData">
+                    @foreach (var item in Model)
+                    {
+                        <!-- post -->
+                        <div class="col-md-12">
+                            <div class="post post-row">
+                                <a class="post-img" href="@Url.Action("Detail", "Client", new { id = item.PostId })"><img src="@Url.Content(item.Image)" height="180" alt=""></a>
+                                <div class="post-body">
+                                    <div class="post-meta">
+                                        <a class="post-category cat-2" href="#">@item.CategoryName</a>
+                                        <span class="post-date">@item.PostModify</span>
+                                    </div>
+                                    <h3 class="post-title"><a href="@Url.Action("Detail", "Client", new { id = item.PostId })">@item.PostTitle</a></h3>
+                                    <p>@item.PostDecription</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- post -->
+                    }
+                </div>
+                @{ if (Model.PageCount > 1)
+                    {
+                        <div style="padding-left:25px;">
+                            @Html.PagedListPager(Model, page => Url.Action("Search", "Client", new { id = ViewBag.Title, page }))
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="col-md-4" id="idRightLayout">
+
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+<script>
+    $.ajax({
+        url: '@Url.Action("_RightLayout", "Client")',
+        success: function (data) {
+            if (data !== "") {
+                var result = $("#idRightLayout");
+
+                result.html(data);
+            }
+            else {
+                swal({
+                    title: 'Error Load Data',
+                    text: '',
+                    type: 'error',
+                    padding: 30,
+                    showCloseButton: true,
+                    cancelButtonClass: 'btn btn-light',
+                    confirmButtonClass: 'btn btn-primary',
+                });
+            }
+        }
+    });
+</script>
+

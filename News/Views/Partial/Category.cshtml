@@ -1,0 +1,61 @@
+﻿@using News.Provider
+@section head{
+    @Styles.Render("~/Content/Tree.css")
+}
+
+@model List<News.Models.CategoryTreeViewModel>
+
+@for (var i = 0; i < Model.Count; i++)
+{
+    if (Model[i].ChildCategory.Count > 0)
+    {
+        var ahref = "hide" + @Model[i].CategoryId;
+        <li>
+            <div class="parent">
+                <div class="pull-right child">
+                    @Html.NoEncodeActionLink("<i class='icon-add'></i>", "Create", "Create", "Categories", new { id = Model[i].CategoryId }, new { @class = "btn btn-primary btn-lg" })
+                    @Html.NoEncodeActionLink("<i class='icon-pencil6'></i>", "Update", "Update", "Categories", new { id = Model[i].CategoryId }, new { data_modal = "", @class = "btn btn-success btn-lg" })
+                    @Html.NoEncodeActionLink("<i class='icon-eye8'></i>", "Detail", "Detail", "Categories", new { id = Model[i].CategoryId }, new { data_modal = "", @class = "btn btn-info btn-lg" })
+                    @Html.NoEncodeActionLink("<i class='icon-trash'></i>", "Delete", "Delete", "Categories", new { id = Model[i].CategoryId }, new { data_modal = "", @class = "btn btn-warning btn-lg" })
+
+                </div>
+                <a class="a-with-children" href="#@ahref" data-toggle="collapse">
+                    <label for=@Model[i].CategoryId>
+                        @Html.DisplayFor(list => list[i].CategoryName)
+                    </label>
+                </a>
+            </div>
+            <ul>
+                <div id="@ahref" class="panel-collapse collapse in">
+                    @{
+                        Html.RenderPartial("~/Views/Partial/Category.cshtml", Model[i].ChildCategory);
+                    }
+                </div>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li>
+            <div class="parent">
+                <div class="pull-right child">
+                    @Html.NoEncodeActionLink("<i class='icon-add'></i>", "Create", "Create", "Categories", new { id = Model[i].CategoryId }, new { @class = "btn btn-primary btn-lg" })
+                    @Html.NoEncodeActionLink("<i class='icon-pencil6'></i>", "Update", "Update", "Categories", new { id = Model[i].CategoryId }, new { data_modal = "", @class = "btn btn-success btn-lg" })
+                    @Html.NoEncodeActionLink("<i class='icon-eye8'></i>", "Detail", "Detail", "Categories", new { id = Model[i].CategoryId }, new { data_modal = "", @class = "btn btn-info btn-lg" })
+                    @Html.NoEncodeActionLink("<i class='icon-trash'></i>", "Delete", "Delete", "Categories", new { id = Model[i].CategoryId }, new { data_modal = "", @class = "btn btn-warning btn-lg" })
+
+                </div>
+                <a href="#">
+                    <label for=@Model[i].CategoryId>
+                        @Html.DisplayFor(list => list[i].CategoryName)
+                    </label>
+                </a>
+            </div>
+        </li>
+    }
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/tree.js")
+}
+
+

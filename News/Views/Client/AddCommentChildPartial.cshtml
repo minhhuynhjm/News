@@ -1,0 +1,21 @@
+﻿@model News.Models.CommentViewModel
+
+<div class="media">
+    <div class="media-left">
+        <img class="media-object" src="@Url.Content(Model.Image)" alt="">
+    </div>
+    <div class="media-body">
+        <div class="media-heading">
+            <h4>@Model.CommentAuthor</h4>
+            <time class="timeago" datetime="@Model.CommentDate">@Model.CommentDate</time>
+            <a href='javascript:void(0)' data-id="@Model.CommentId" class="reply">Reply</a>
+        </div>
+        <p>@Model.CommentContent</p>  
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("time.timeago").timeago();
+    });
+</script>
