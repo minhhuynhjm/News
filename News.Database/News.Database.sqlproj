@@ -14,7 +14,7 @@
     </RootPath>
     <RootNamespace>News.Database</RootNamespace>
     <AssemblyName>News.Database</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -23,6 +23,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,5 +59,53 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\Comments.sql" />
+    <Build Include="dbo\Tables\AspNetRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUserRoles.sql" />
+    <Build Include="dbo\Tables\Posts.sql" />
+    <Build Include="dbo\Tables\AspNetUsers.sql" />
+    <Build Include="dbo\Tables\AspNetUserClaims.sql" />
+    <Build Include="dbo\Tables\AspNetUserLogins.sql" />
+    <Build Include="dbo\Tables\__MigrationHistory.sql" />
+    <Build Include="dbo\Tables\Categories.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AspNetUsers_Update.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AspNetUsers_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Comments_ReadAllPaging.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_ReadByCategoryId.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_ReadByTag.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_ReadByTitle.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Chart_ReadAll.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_ReadByPaging.sql" />
+    <Build Include="dbo\Stored Procedures\usp_m_Categories_ReadAll.sql" />
+    <Build Include="dbo\Stored Procedures\usp_m_Posts_ReadByCategoryId.sql" />
+    <Build Include="dbo\Stored Procedures\usp_m_Posts_ReadById.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Categories_Create.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Categories_ReadAll.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Categories_ReadById.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Categories_Update.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_Create.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_Update.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_ReadAll.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_ReadById.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Categories_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Comments_Create.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Comments_Update.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Comments_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Comments_ReadAll.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Comments_ReadById.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Posts_ReadAllTag.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AspNetUsers_ReadAll.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AspNetUsers_ReadById.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AspNetUserRoles_Create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AspNetUserRoles_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AspNetRoles_ReadAll.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Comments_ReadByPostId.sql" />
+    <Build Include="dbo\Stored Procedures\usp_m_Posts_ReadAll.sql" />
   </ItemGroup>
 </Project>

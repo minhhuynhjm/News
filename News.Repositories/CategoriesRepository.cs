@@ -60,7 +60,7 @@ namespace News.Repositories
             return result;
         }
 
-        public async Task<IEnumerable<Categories>> GetAllMoblieAsync()
+        public async Task<IEnumerable<Categories>> GetAllMobileAsync()
         {
             var result = await AdapterPattern.ExecuteList<Categories>("usp_m_Categories_ReadAll");
             return result;

@@ -11,6 +11,8 @@ namespace News.Interface
     {
         Task<IEnumerable<PostList>> GetAllAsync();
 
+        Task<IEnumerable<PostList>> GetAllMobileAsync();
+
         Task<IEnumerable<PostTag>> GetAllTagAsync();
 
         IEnumerable<PostList> GetByPaging(string search, int pageSize, int skip, out int output);
@@ -25,7 +27,7 @@ namespace News.Interface
 
         Task<IEnumerable<PostList>> FindByCategoryIdAsync(int id);
 
-        Task<Posts> FindByIdMoblieAsync(int id);
+        Task<Posts> FindByIdMobileAsync(int id);
 
         Task<bool> CreateAsync(Posts model);
 

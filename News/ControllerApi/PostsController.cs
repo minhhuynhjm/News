@@ -23,11 +23,34 @@ namespace News.ControllerApi
             _categoriesRepo = categoriesRepository;
         }
 
+        // GET: api/Posts
+        [HttpGet]
+        public async Task<IHttpActionResult> Get()
+        {
+            var host = ConfigurationManager.AppSettings["serverUrl"];
+
+            var result = await _postsRepo.GetAllMobileAsync();
+
+            var data = result.Select(item => new PostList
+            {
+                CategoryId = item.CategoryId,
+                CategoryName = item.CategoryName,
+                PostId = item.PostId,
+                PostTitle = item.PostTitle,
+                PostDecription = item.PostDecription,
+                PostContent = item.PostContent,
+                PostModify = item.PostModify,
+                Image = host + item.Image.Substring(1)
+            }).ToList();
+
+            return Ok(data);
+        }
+
         // GET: api/Posts/1
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
-            var result = await _postsRepo.FindByIdMoblieAsync(id);
+            var result = await _postsRepo.FindByIdMobileAsync(id);
 
             return Ok(result);
         }
@@ -37,7 +60,7 @@ namespace News.ControllerApi
         [HttpGet]
         public async Task<IHttpActionResult> Categories()
         {
-            var result = await _categoriesRepo.GetAllMoblieAsync();
+            var result = await _categoriesRepo.GetAllMobileAsync();
 
             return Ok(result);
         }

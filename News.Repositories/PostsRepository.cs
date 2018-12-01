@@ -157,12 +157,18 @@ namespace News.Repositories
             return result;
         }
 
-        public async Task<Posts> FindByIdMoblieAsync(int id)
+        public async Task<Posts> FindByIdMobileAsync(int id)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@PostId", id);
 
             var result = await AdapterPattern.ExecuteSingle<Posts>("usp_m_Posts_ReadById", parameters);
+            return result;
+        }
+
+        public async Task<IEnumerable<PostList>> GetAllMobileAsync()
+        {
+            var result = await AdapterPattern.ExecuteList<PostList>("usp_m_Posts_ReadAll");
             return result;
         }
     }

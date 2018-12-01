@@ -11,7 +11,7 @@ namespace News.Interface
     {
         Task<IEnumerable<Categories>> GetAllAsync();
 
-        Task<IEnumerable<Categories>> GetAllMoblieAsync();
+        Task<IEnumerable<Categories>> GetAllMobileAsync();
 
         Task<Categories> FindByIdAsync(int id);
 
