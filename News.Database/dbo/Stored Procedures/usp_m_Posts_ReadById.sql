@@ -12,10 +12,9 @@ BEGIN
 	---------------------------------------------------
 	BEGIN TRY
 
-	SELECT p.*, c.*
+	SELECT p.[PostId], p.[PostContent],p.[PostTitle], FORMAT( p.[PostModify], 'dd MMMM yyyy', 'en-US' ) AS PostModify
 
-	FROM   [Posts] p JOIN [Categories] c ON
-		   p.[CategoryId] = c.[CategoryId]
+	FROM   [Posts] p 
 	WHERE p.[PostId] = @PostId
 	---------------------------------------------------
 	END TRY

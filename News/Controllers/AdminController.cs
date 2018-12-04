@@ -10,11 +10,11 @@ using System.Web.Mvc;
 namespace News.Controllers
 {
     [Authorize]
-    public class DashboardController : Controller
+    public class AdminController : Controller
     {
         private readonly IChartsRepository _chartsRepo;
 
-        public DashboardController(IChartsRepository chartsRepository)
+        public AdminController(IChartsRepository chartsRepository)
         {
             _chartsRepo = chartsRepository;
         }

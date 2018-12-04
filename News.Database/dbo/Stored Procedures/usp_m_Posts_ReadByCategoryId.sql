@@ -21,6 +21,8 @@ BEGIN
 		   p.[CategoryId] = c.[CategoryId]
 	WHERE c.[CategoryId] = @CategoryId
 
+	ORDER BY p.[PostId] DESC
+
 	---------------------------------------------------
 	END TRY
 	BEGIN CATCH

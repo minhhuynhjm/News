@@ -159,7 +159,7 @@ namespace News.Controllers
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     //ViewBag.Link = callbackUrl;
                     //return View("DisplayEmail");
-                    return RedirectToAction("Index", "Dashboard");
+                    return RedirectToAction("Index", "Client");
                 }
                 AddErrors(result);
             }
@@ -421,7 +421,7 @@ namespace News.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction("Index", "Client");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

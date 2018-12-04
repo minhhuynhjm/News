@@ -107,5 +107,7 @@
     <Build Include="dbo\Stored Procedures\sp_AspNetRoles_ReadAll.sql" />
     <Build Include="dbo\Stored Procedures\usp_Comments_ReadByPostId.sql" />
     <Build Include="dbo\Stored Procedures\usp_m_Posts_ReadAll.sql" />
+    <Build Include="dbo\Tables\AppSettings.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AppSettings_CreateOrUpdate.sql" />
   </ItemGroup>
 </Project>
