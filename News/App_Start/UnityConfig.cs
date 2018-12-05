@@ -25,6 +25,7 @@ namespace News
             container.RegisterType<IRolesRepository, RolesRepository>();
             container.RegisterType<IChartsRepository, ChartsRepository>();
             container.RegisterType<IAppSettingsRepository, AppSettingsRepository>();
+            container.RegisterType<IModulesRepository, ModulesRepository>();
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<RolesController>(new InjectionConstructor());
             container.RegisterType<ManageController>(new InjectionConstructor());
@@ -45,6 +46,7 @@ namespace News
                 cfg.CreateMap<Posts, PostViewModel>();
                 cfg.CreateMap<PostList, PostViewModel>();
                 cfg.CreateMap<AppSettings, AppSettingViewModel>();
+                cfg.CreateMap<Modules, ModuleViewModel>();
             });
 
             IMapper mapper = config.CreateMapper();

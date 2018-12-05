@@ -1,0 +1,48 @@
+﻿@model IEnumerable<News.Models.ModuleViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<!-- Basic table -->
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">Modules</h5>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <li><a data-action="reload"></a></li>
+                <li><a data-action="close"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sort</th>
+                    <th>Title</th>
+                    <th>Link</th>
+                    <th>Isactive</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@item.Sort</td>
+                    <td>@item.Title</td>
+                    <td>@item.Link</td>
+                    <td>@if (item.Isactive)
+                    { <span class="label bg-success-400">Active</span>}
+                    else {<span class="label bg-danger">Pending</span> }</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /basic table -->

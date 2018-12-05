@@ -256,6 +256,7 @@
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\AppSettingController.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ModuleViewModel.cs" />
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -3078,6 +3080,7 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Categories\Update.cshtml" />
     <Content Include="Views\AppSetting\Create.cshtml" />
+    <Content Include="Views\Modules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

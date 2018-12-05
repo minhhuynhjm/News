@@ -110,5 +110,8 @@
     <Build Include="dbo\Tables\AppSettings.sql" />
     <Build Include="dbo\Stored Procedures\usp_AppSettings_CreateOrUpdate.sql" />
     <Build Include="dbo\Stored Procedures\usp_AppSettings_ReadAll.sql" />
+    <Build Include="dbo\Tables\Modules.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Modules_ReadAll.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Modules_CreateOrUpdate.sql" />
   </ItemGroup>
 </Project>
