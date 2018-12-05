@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettingsRepository.cs" />
     <Compile Include="CategoriesRepository.cs" />
     <Compile Include="ChartsRepository.cs" />
     <Compile Include="CommentsRepository.cs" />
