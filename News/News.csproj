@@ -3074,13 +3074,16 @@
     <Content Include="Views\Client\Register.cshtml" />
     <Content Include="Views\Client\Tags.cshtml" />
     <Content Include="Views\Client\_RightLayout.cshtml" />
-    <Content Include="Views\Client\_Search.cshtml" />
+    <Content Include="Views\Client\Search.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Detail.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Categories\Update.cshtml" />
     <Content Include="Views\AppSetting\Create.cshtml" />
     <Content Include="Views\Modules\Index.cshtml" />
+    <Content Include="Views\Modules\Create.cshtml" />
+    <Content Include="Views\Modules\Edit.cshtml" />
+    <Content Include="Views\Modules\_ListModules.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

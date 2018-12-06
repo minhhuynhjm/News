@@ -113,5 +113,8 @@
     <Build Include="dbo\Tables\Modules.sql" />
     <Build Include="dbo\Stored Procedures\usp_Modules_ReadAll.sql" />
     <Build Include="dbo\Stored Procedures\usp_Modules_CreateOrUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Modules_ReadById.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Modules_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\usp_Chart_ReadToday.sql" />
   </ItemGroup>
 </Project>

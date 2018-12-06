@@ -1,0 +1,8 @@
+﻿@model IEnumerable<News.Models.ModuleViewModel>
+
+<ul class="nav-menu nav navbar-nav">
+    @foreach (var item in Model)
+    {
+        <li><a href="@item.Link">@item.Title</a></li>
+    }
+</ul>

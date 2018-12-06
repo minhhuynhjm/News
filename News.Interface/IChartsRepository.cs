@@ -9,5 +9,7 @@ namespace News.Interface
     public interface IChartsRepository
     {
         bool GetAll(out int user, out int post, out int comment);
+
+        bool GetToday(out int post, out int comment);
     }
 }

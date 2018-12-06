@@ -43,13 +43,20 @@ namespace News.Controllers
                 string fileName = Path.GetFileNameWithoutExtension(Logo.FileName);
                 string extension = Path.GetExtension(Logo.FileName);
                 fileName = fileName + extension;
-                vm.Logo = "~/Image/" + fileName;
+                vm.Logo = "/Image/" + fileName;
                 Logo.SaveAs(Path.Combine(Server.MapPath("~/Image"), fileName));
             }
 
             var result = await _appSettingsRepo.CreateOrUpdateAsync(_mapper.Map<AppSettings>(vm));
 
             return Json(response);
+        }
+
+        public async Task<ActionResult> LoadInfo()
+        {
+            var result = await _appSettingsRepo.GetAllAsync();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

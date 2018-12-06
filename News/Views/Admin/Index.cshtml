@@ -24,6 +24,30 @@
 
                 <div class="panel-body">
                     <div class="chart-container has-scroll">
+                        <div class="chart has-fixed-height has-minimum-width" id="pie_basic_today"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /bacis pie chart -->
+        </div>
+
+        <div class="col-md-6">
+
+            <!-- Basic pie chart -->
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title"></h5>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                            <li><a data-action="reload"></a></li>
+                            <li><a data-action="close"></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="chart-container has-scroll">
                         <div class="chart has-fixed-height has-minimum-width" id="pie_basic"></div>
                     </div>
                 </div>
@@ -31,6 +55,7 @@
             <!-- /bacis pie chart -->
         </div>
     </div>
+
 </div>
 
 <script>
@@ -53,7 +78,7 @@
             
             // Colors
             color: [
-                '#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80',
+                '#d87a80', '#ffb980', '#5ab1ef', '#ffb980', '#d87a80',
                 '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
                 '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
                 '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
@@ -67,7 +92,7 @@
 
             // Add title
             title: {
-                text: 'CMS Statistics',
+                text: 'News Statistics',
                 left: 'center',
                 textStyle: {
                     fontSize: 17,
@@ -143,5 +168,110 @@
     }
 
 
+    var pie_basic_elementToday = document.getElementById('pie_basic_today');
 
+    // Basic pie chart
+    if (pie_basic_elementToday) {
+
+        // Initialize chart
+        var pie_basicToday = echarts.init(pie_basic_elementToday);
+
+        var dataToday = getDataToday();
+
+        //
+        // Chart config
+        //
+
+        // Options
+        pie_basicToday.setOption({
+            
+            // Colors
+            color: [
+                '#ffb980', '#5ab1ef', '#5ab1ef', '#ffb980', '#d87a80',
+                '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
+                '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
+                '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
+            ],
+
+            // Global text styles
+            textStyle: {
+                fontFamily: 'Roboto, Arial, Verdana, sans-serif',
+                fontSize: 13
+            },
+
+            // Add title
+            title: {
+                text: 'News Today',
+                left: 'center',
+                textStyle: {
+                    fontSize: 17,
+                    fontWeight: 500
+                },
+                subtextStyle: {
+                    fontSize: 12
+                }
+            },
+
+            // Add tooltip
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: 'rgba(0,0,0,0.75)',
+                padding: [10, 15],
+                textStyle: {
+                    fontSize: 13,
+                    fontFamily: 'Roboto, sans-serif'
+                },
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+
+            // Add legend
+            legend: {
+                orient: 'vertical',
+                top: 'center',
+                left: 0,
+                data: ['Post', 'Comment'],
+                itemHeight: 8,
+                itemWidth: 8
+            },
+
+            // Add series
+            series: [{
+                name: 'Total',
+                type: 'pie',
+                radius: '70%',
+                center: ['50%', '57.5%'],
+                itemStyle: {
+                    normal: {
+                        borderWidth: 1,
+                        borderColor: '#fff'
+                    }
+                },
+                data: [
+                    { value: dataToday.Post, name: 'Post' },
+                    { value: dataToday.Comment, name: 'Comment' }
+                ]
+            }]
+        });
+    }
+
+
+    function getDataToday() {
+        var _data = null;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ChartToday", "Admin")',
+            dataType: 'json',
+            async: false,
+            success: function (result) {
+                if (result.success) {
+                    _data = result.response;                    
+                }
+                else {
+                    return false;
+                }
+            }
+        });
+
+        return _data;
+    }
 </script>

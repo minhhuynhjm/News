@@ -26,6 +26,24 @@ namespace News.Repositories
             return result;
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+
+            var result = await AdapterPattern.Execute("usp_Modules_Delete", parameters);
+            return result;
+        }
+
+        public async Task<Modules> FindByIdAsync(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+
+            var result = await AdapterPattern.ExecuteSingle<Modules>("usp_Modules_ReadById", parameters);
+            return result;
+        }
+
         public async Task<IEnumerable<Modules>> GetAllAsync()
         {
             var result = await AdapterPattern.ExecuteList<Modules>("usp_Modules_ReadAll");

@@ -44,5 +44,22 @@ namespace News.Controllers
 
             return Json(response);
         }
+
+        public ActionResult ChartToday()
+        {
+            var response = new ResponseContainer<Charts>();
+
+            var result = _chartsRepo.GetToday(out int post, out int comment);
+
+            var model = new Charts
+            {
+                Comment = comment,
+                Post = post
+            };
+
+            response.response = model;
+
+            return Json(response);
+        }
     }
 }

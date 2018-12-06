@@ -27,5 +27,19 @@ namespace News.Repositories
 
             return result;
         }
+
+        public bool GetToday(out int post, out int comment)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Post", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@Comment", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            var result = AdapterPattern.ExecuteNoneAsync("usp_Chart_ReadToday", parameters);
+
+            post = parameters.Get<int>("@Post");
+            comment = parameters.Get<int>("@Comment");
+
+            return result;
+        }
     }
 }

@@ -41,18 +41,21 @@
                 <div class="container">
                     <!-- logo -->
                     <div class="nav-logo">
-                        <a href="/Client" class="logo"><img src="~/Template/Client/img/logo.png" alt=""></a>
+                        @*<a href="/Client" class="logo"><img src="~/Template/Client/img/logo.png" alt="" width="110"></a>*@
                     </div>
                     <!-- /logo -->
                     <!-- nav -->
-                    <ul class="nav-menu nav navbar-nav">
+                    @*<ul class="nav-menu nav navbar-nav">
                         <li><a href="/Client/Categories/7">News</a></li>
                         <li><a href="/Client/Categories/8">Popular</a></li>
-                        <li class="cat-1"><a href="/Client/Categories/9">.Net</a></li>
-                        <li class="cat-2"><a href="/Client/Categories/11">ReactJs</a></li>
-                        <li class="cat-3"><a href="/Client/Categories/14">Technical</a></li>
-                        <li class="cat-4"><a href="/Client/Categories/10">Javacript</a></li>
-                    </ul>
+                        <li><a href="/Client/Categories/9">.Net</a></li>
+                        <li><a href="/Client/Categories/11">ReactJs</a></li>
+                        <li><a href="/Client/Categories/14">Technical</a></li>
+                        <li><a href="/Client/Categories/10">Javacript</a></li>
+                    </ul>*@
+                    <div id="idListCategory">
+
+                    </div>
                     <!-- /nav -->
                     <!-- search & aside toggle -->
                     <div class="nav-btns">
@@ -179,7 +182,7 @@
         }
         $.ajax({
             type: "GET",
-            url: "Client/Search?title=" + searchText,
+            url: "/Client/Search?title=" + searchText,
             dataType: "html",
             success: function (response) {
                 $('#search-content').html(response);
@@ -215,6 +218,38 @@
                 }
             }
         });
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("_ListModules", "Modules")',
+            dataType: 'html',
+            success: function (data) {
+                $("#idListCategory").html(data);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("LoadInfo", "AppSetting")',
+            contentType: 'application/json;',
+            dataType: 'json',
+            success: function (data) {
+                if ($.trim(data)) {
+                    var image = data.Logo;
+                    $(".nav-logo").html('<a href="/Client" class="logo"><img src="' + image +'" alt="" width="110"></a>');
+                }
+                else {
+                    return false;
+                }
+            }
+        });
+
     });
 
 

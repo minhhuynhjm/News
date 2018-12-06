@@ -1,23 +1,31 @@
 ﻿-- =============================================
 -- Author:      minhhuynh
--- Create date: 05-12-2018
+-- Create date: 06-12-2018
 -- Description:	
 -- =============================================
-CREATE PROCEDURE [dbo].[usp_Modules_ReadAll]
+CREATE PROCEDURE [dbo].[usp_Modules_Delete]
+	@Id INT
 AS
 Begin
 	SET NOCOUNT ON;
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 	---------------------------------------------------
-	BEGIN TRY
+	 DECLARE @return AS BIT = 1 
 
-		SELECT a.*
-		FROM [dbo].[Modules] a
-		
-		ORDER BY a.[Sort]
+		BEGIN TRY 
+			BEGIN TRAN; 
+
+		DELETE FROM [dbo].[Modules] WHERE [Id] = @Id
 	---------------------------------------------------
-	END TRY
-	BEGIN CATCH
-		THROW;
-	END CATCH
+	COMMIT 
+		END TRY 
+
+		BEGIN CATCH 
+			SET @return = 0 
+			ROLLBACK TRANSACTION 
+
+			THROW; 
+		END CATCH 
+
+		SELECT @return 
 End

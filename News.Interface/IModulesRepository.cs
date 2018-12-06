@@ -11,5 +11,10 @@ namespace News.Interface
     {
         Task<IEnumerable<Modules>> GetAllAsync();
         Task<Modules> CreateOrUpdateAsync(Modules model);
+
+        Task<Modules> FindByIdAsync(int id);
+
+        Task<bool> DeleteAsync(int id);
+
     }
 }

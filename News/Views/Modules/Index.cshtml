@@ -9,7 +9,7 @@
 <!-- Basic table -->
 <div class="panel panel-flat">
     <div class="panel-heading">
-        <h5 class="panel-title">Modules</h5>
+        <button type="button" onclick="location.href='@Url.Action("Create","Modules")'" class="btn btn-primary"><i class="icon-add position-left"></i>Create new module</button>
         <div class="heading-elements">
             <ul class="icons-list">
                 <li><a data-action="collapse"></a></li>
@@ -27,6 +27,7 @@
                     <th>Title</th>
                     <th>Link</th>
                     <th>Isactive</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +40,61 @@
                     <td>@if (item.Isactive)
                     { <span class="label bg-success-400">Active</span>}
                     else {<span class="label bg-danger">Pending</span> }</td>
+                    <td><button class="btn btn-warning" onclick="location.href='@Url.Action("Edit","Modules", new { id = item.Id })'"><i class="icon-pencil7"></i></button>
+                        <button class="btn btn-danger" onclick="deleteClicked(@item.Id)"><i class="icon-x"></i></button>
+                    </td>
                 </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
-<!-- /basic table -->
+
+<script>
+    function deleteClicked(id) {
+
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function (dismiss) {
+
+            if (dismiss.value === true) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Delete", "Modules")/' + id,
+                    contentType: 'application/json;',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            swal({
+                                title: 'Delete success!',
+                                text: '',
+                                type: 'success',
+                                showCloseButton: false,
+                                confirmButtonClass: 'btn btn-primary'
+                            }).then(function () {
+                                window.location = '@Url.Action("Index", "Modules")';
+                            })
+                        }
+                        else {
+                            swal({
+                                title: 'An error occurred, please try again later!',
+                                text: '',
+                                type: 'error',
+                                padding: 30,
+                                showCloseButton: true,
+                                cancelButtonClass: 'btn btn-light',
+                                confirmButtonClass: 'btn btn-primary',
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>

@@ -117,7 +117,7 @@ namespace News.Controllers
 
             IPagedList<PostViewModel> pageOrders = new StaticPagedList<PostViewModel>(get, pageNumber, pageSize, totalRows);
 
-            return PartialView("_Search", pageOrders);
+            return PartialView(pageOrders);
         }
 
         public ActionResult Categories(int id, int? page)
@@ -185,6 +185,7 @@ namespace News.Controllers
             }
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<ActionResult> ProfileClient(UserViewModel vm, HttpPostedFileBase Image)
         {

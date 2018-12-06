@@ -1,7 +1,11 @@
 ﻿@model PagedList.IPagedList<News.Models.PostViewModel>
 @using PagedList.Mvc;
 
+@*@{
+        Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    }*@
 <!-- section -->
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <div class="section">
     <!-- container -->
     <div class="container">
@@ -31,7 +35,9 @@
                 @{ if (Model.PageCount > 1)
                     {
                         <div style="padding-left:25px;">
-                            @Html.PagedListPager(Model, page => Url.Action("Search", "Client", new { id = ViewBag.Title, page }))
+                            @*@Html.PagedListPager(Model, page => Url.Action("Search", "Client", new { id = ViewBag.Title, page }))*@
+                            @Html.PagedListPager(Model, page => Url.Action("Search", "Client", new { title = ViewBag.Title, page }),
+           PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "search-content" }))
                         </div>
                     }
                 }
@@ -45,28 +51,29 @@
     </div>
     <!-- /container -->
 </div>
+
 <!-- /section -->
 <script>
-    $.ajax({
-        url: '@Url.Action("_RightLayout", "Client")',
-        success: function (data) {
-            if (data !== "") {
-                var result = $("#idRightLayout");
+        $.ajax({
+            url: '@Url.Action("_RightLayout", "Client")',
+            success: function (data) {
+                if (data !== "") {
+                    var result = $("#idRightLayout");
 
-                result.html(data);
+                    result.html(data);
+                }
+                else {
+                    swal({
+                        title: 'Error Load Data',
+                        text: '',
+                        type: 'error',
+                        padding: 30,
+                        showCloseButton: true,
+                        cancelButtonClass: 'btn btn-light',
+                        confirmButtonClass: 'btn btn-primary',
+                    });
+                }
             }
-            else {
-                swal({
-                    title: 'Error Load Data',
-                    text: '',
-                    type: 'error',
-                    padding: 30,
-                    showCloseButton: true,
-                    cancelButtonClass: 'btn btn-light',
-                    confirmButtonClass: 'btn btn-primary',
-                });
-            }
-        }
-    });
+        });
 </script>
 

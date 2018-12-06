@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using News.Common;
+using News.DTO;
 using News.Interface;
 using News.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace News.Controllers
@@ -27,6 +27,49 @@ namespace News.Controllers
             var result = await _modulesRepo.GetAllAsync();
 
             return View(_mapper.Map<IEnumerable<ModuleViewModel>>(result));
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(ModuleViewModel vm)
+        {
+            var result = await _modulesRepo.CreateOrUpdateAsync(_mapper.Map<Modules>(vm));
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            var result = await _modulesRepo.FindByIdAsync(id);
+
+            return View(_mapper.Map<ModuleViewModel>(result));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var response = new ResponseContainer<string>();
+
+            var result = await _modulesRepo.DeleteAsync(id);
+
+            response.success = result;
+
+            return Json(response);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> _ListModules()
+        {
+            var result = await _modulesRepo.GetAllAsync();
+            var data = result.Where(p => p.Isactive == true);
+
+            return PartialView("_ListModules", _mapper.Map<IEnumerable<ModuleViewModel>>(data));
         }
     }
 }

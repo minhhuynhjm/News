@@ -1,9 +1,10 @@
 ﻿-- =============================================
 -- Author:      minhhuynh
--- Create date: 05-12-2018
+-- Create date: 06-12-2018
 -- Description:	
 -- =============================================
-CREATE PROCEDURE [dbo].[usp_Modules_ReadAll]
+CREATE PROCEDURE [dbo].[usp_Modules_ReadById]
+	@Id INT
 AS
 Begin
 	SET NOCOUNT ON;
@@ -11,10 +12,9 @@ Begin
 	---------------------------------------------------
 	BEGIN TRY
 
-		SELECT a.*
-		FROM [dbo].[Modules] a
-		
-		ORDER BY a.[Sort]
+		SELECT  c.* 
+		FROM    [Modules] c
+		WHERE   c.[Id] = @Id
 	---------------------------------------------------
 	END TRY
 	BEGIN CATCH
