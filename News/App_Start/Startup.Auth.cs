@@ -57,9 +57,9 @@ namespace News
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-               appId: "2150830514947255",
-               appSecret: "010c5c97bcd3bf59eba72f6f16370d47");
+            //app.UseFacebookAuthentication(
+            //   appId: "2150830514947255",
+            //   appSecret: "010c5c97bcd3bf59eba72f6f16370d47");
 
             app.UseGoogleAuthentication(
                 clientId: "896699310317-5lhn5ms703hpp26p9197sstd79cf1dj3.apps.googleusercontent.com",

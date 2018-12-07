@@ -105,7 +105,7 @@ namespace News.Controllers
                 {
                     Success = delete
                 };
-                return Json(mess);
+                return Json(mess, JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -113,7 +113,7 @@ namespace News.Controllers
                 {
                     isSuccess = delete
                 };
-                return Json(mess);
+                return Json(mess, JsonRequestBehavior.AllowGet);
             }
         }
     }

@@ -60,7 +60,7 @@ namespace News.Controllers
 
             response.success = result;
 
-            return Json(response);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

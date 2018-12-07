@@ -28,7 +28,6 @@ namespace News
             container.RegisterType<IModulesRepository, ModulesRepository>();
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<RolesController>(new InjectionConstructor());
-            container.RegisterType<ManageController>(new InjectionConstructor());
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 

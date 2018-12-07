@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace News.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Editor")]
     public class CategoriesController : Controller
     {
         private List<CategoryTreeViewModel> _categoryList = new List<CategoryTreeViewModel>();

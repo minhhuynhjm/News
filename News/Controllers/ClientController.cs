@@ -44,7 +44,8 @@ namespace News.Controllers
 
             var news = ConfigurationManager.AppSettings["News"];
 
-            var result = await _postRepo.GetAllAsync();
+            var data = await _postRepo.GetAllAsync();
+            var result = data.Where(p => p.PostStatus == true);
 
             ViewBag.Background = result.Where(p => p.CategoryName == background).Take(2);
             ViewBag.Technical = result.Where(p => p.CategoryName == technical).Take(6);

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace News.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Editor")]
     public class AdminController : Controller
     {
         private readonly IChartsRepository _chartsRepo;
