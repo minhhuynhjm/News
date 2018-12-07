@@ -73,7 +73,7 @@
                 { "data": "UserName", "name": "UserName", "autoWidth": true, "orderable": false },
                 { "data": "CategoryName", "name": "CategoryName", "autoWidth": true, "orderable": false },
                 {
-                    data: null, orderable: true, render: function (data, type, full) {
+                    data: null, orderable: false, render: function (data, type, full) {
                         if (data.PostStatus) {
                             return '<span class="label bg-success-400">Approve</span>';
                         }

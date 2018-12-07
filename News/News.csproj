@@ -3084,6 +3084,7 @@
     <Content Include="Views\Modules\Create.cshtml" />
     <Content Include="Views\Modules\Edit.cshtml" />
     <Content Include="Views\Modules\_ListModules.cshtml" />
+    <Content Include="Views\Comments\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

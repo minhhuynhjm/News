@@ -50,7 +50,7 @@ namespace News.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
 
-                var result = _commentRepo.GetPagingAsync(pageSize, skip);
+                var result = _commentRepo.GetPagingAsync(pageSize, skip, searchValue, sortColumn, sortColumnDir);
 
                 recordsTotal = result.Item2;
 
@@ -105,6 +105,23 @@ namespace News.Controllers
                 var update = await _commentRepo.UpdateAsync(result);
 
                 return Json(response);
+            }
+            catch (Exception)
+            {
+                response.success = false;
+                return Json(response);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
+        {
+            var response = new ResponseContainer<string>();
+            try
+            {
+                var result = await _commentRepo.FindByIdAsync(id);
+
+                return View(_mapper.Map<CommentViewModel>(result));
             }
             catch (Exception)
             {

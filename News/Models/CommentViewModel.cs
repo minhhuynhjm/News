@@ -8,13 +8,14 @@ namespace News.Models
 {
     public class CommentViewModel
     {
+        [Display(Name = "Id")]
         public int CommentId { get; set; }
 
         [Display(Name = "Author")]
         [Required(ErrorMessage = "Author is not empty.")]
         public string CommentAuthor { get; set; }
 
-        [Display(Name = "Comment Author Email")]
+        [Display(Name = "Email")]
         [Required(ErrorMessage = "Email is not empty.")]
         public string CommentAuthorEmail { get; set; }
 

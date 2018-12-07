@@ -11,7 +11,7 @@ namespace News.Interface
     {
         Task<IEnumerable<Comments>> GetAllAsync();
 
-        Tuple<IEnumerable<Comments>, int> GetPagingAsync(int take, int skip, int output = 0);
+        Tuple<IEnumerable<Comments>, int> GetPagingAsync(int take, int skip, string keyword, string sortColumn, string sortColumnDirection, int output = 0);
 
         Task<Comments> FindByIdAsync(int id);
 

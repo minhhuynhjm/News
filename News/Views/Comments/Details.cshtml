@@ -1,0 +1,66 @@
+﻿@model News.Models.CommentViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentAuthor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentAuthor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentAuthorEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentAuthorEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommentContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommentContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+                 
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

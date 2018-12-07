@@ -40,7 +40,7 @@
         $('#tblData').dataTable({
             "processing": true,
             "serverSide": true,
-            "filter": false,
+            "filter": true,
             "orderMulti": false,
             "ordering": true,
             "order": [[0, "desc"]],
@@ -57,15 +57,15 @@
                     "searchable": false
                 }],
             "columns": [   
-                { "data": "CommentDate", "orderable": false },
-                { "data": "CommentDate" , "orderable": false},
-                { "data": "CommentAuthor", "orderable": false },
+                { "data": "CommentId", "name": "CommentId", "autoWidth": true, "orderable": false },
+                { "data": "CommentDate", "autoWidth": true,"orderable": false},
+                { "data": "CommentAuthor", "autoWidth": true, "orderable": false },
                 {
-                    data: null, orderable: false, render: function (data, type, full) {
+                    data: null, autoWidth: true,orderable: false, render: function (data, type, full) {
                         var _des = data.CommentContent;
                         if (data.CommentContent !== null) {
-                            if (data.CommentContent.length > 40) {
-                                _des = data.CommentContent.substring(0, 39) + " ...";
+                            if (data.CommentContent.length > 30) {
+                                _des = data.CommentContent.substring(0, 30) + " ...";
                             }
                         }
                         return _des;
@@ -75,15 +75,15 @@
                     data: null, orderable: false, render: function (data, type, full) {
                         var _des = data.PostTitle;
                         if (data.PostTitle !== null) {
-                            if (data.PostTitle.length > 49) {
-                                _des = data.PostTitle.substring(0, 49) + " ...";
+                            if (data.PostTitle.length > 30) {
+                                _des = data.PostTitle.substring(0, 30) + " ...";
                             }
                         }
                         return '<a href="Client/Detail/'+ data.PostId+'">' + _des + '</a>';
                     }
                 },
                 {
-                    data: null, orderable: true, render: function (data, type, full) {
+                    data: null, orderable: true, name:"Status", render: function (data, type, full) {
                         if (data.Status) {
                             return '<span class="label bg-success-400">Approve</span>';
                         }
@@ -93,6 +93,7 @@
                 {
                     data: null, orderable: false, render: function (data, type, full) {
                         return '<div class="btn-group">' +
+                            '<button onclick=previewClicked(' + data.CommentId + '); class="btn btn-default"><i class="icon-eye"></i></button>' +
                             '<button onclick=editClicked(' + data.CommentId + '); class="btn btn-warning"><i class="icon-checkmark-circle2"></i></button>' +
                             '<button onclick=deleteClicked(' + data.CommentId + '); class="btn btn-danger"><i class="icon-x"></i></button>' +
                             '</div>' +
@@ -136,6 +137,9 @@
         });
     }
 
+    function previewClicked(id) {
+        location.href = '/Comments/Details/' + id;
+    }
     function deleteClicked(id) {
 
     swal({

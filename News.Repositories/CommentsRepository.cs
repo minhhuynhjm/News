@@ -87,11 +87,14 @@ namespace News.Repositories
             return result;
         }
 
-        public Tuple<IEnumerable<Comments>, int> GetPagingAsync(int take, int skip, int output = 0)
+        public Tuple<IEnumerable<Comments>, int> GetPagingAsync(int take, int skip, string keyword, string sortColumn, string sortColumnDirection, int output = 0)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Take", take);
             parameters.Add("@Skip", skip);
+            parameters.Add("@Keyword", keyword);
+            parameters.Add("@SortDataField", sortColumn);
+            parameters.Add("@SortOrder", sortColumnDirection);
             parameters.Add("@Output", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
             var result = AdapterPattern.ExecuteListNonAsync<Comments>("usp_Comments_ReadAllPaging", parameters);
