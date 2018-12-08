@@ -33,9 +33,6 @@ namespace News.Models
         [Display(Name = "Status")]
         public bool PostStatus { get; set; }
 
-        [Display(Name = "Allow Comment")]
-        public bool CommentStatus { get; set; }
-
         public string Image { get; set; }
 
         [Display(Name = "Tag")]

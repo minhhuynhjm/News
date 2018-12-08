@@ -66,7 +66,9 @@ namespace News.Controllers
 
         public async Task<ActionResult> _RightLayout()
         {
-            var result = await _postRepo.GetAllAsync();
+            var data = await _postRepo.GetAllAsync();
+            var result = data.Where(p => p.PostStatus == true);
+
             ViewBag.Recent = result.Take(4);
 
             var get = await _postRepo.GetAllTagAsync();

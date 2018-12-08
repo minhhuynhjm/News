@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace News.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Editor")]
     public class CommentsController : Controller
     {
         private readonly ICommentsRepository _commentRepo;

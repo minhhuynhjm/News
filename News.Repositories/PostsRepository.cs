@@ -37,7 +37,6 @@ namespace News.Repositories
             parameters.Add("@PostContent", model.PostContent);
             parameters.Add("@PostTitle", model.PostTitle);
             parameters.Add("@PostStatus", model.PostStatus);
-            parameters.Add("@CommentStatus", model.CommentStatus);
             parameters.Add("@PostModify", model.PostModify);
             parameters.Add("@PostDecription", model.PostDecription);
             parameters.Add("@Image", model.Image);
@@ -58,7 +57,6 @@ namespace News.Repositories
             parameters.Add("@PostContent", model.PostContent);
             parameters.Add("@PostTitle", model.PostTitle);
             parameters.Add("@PostStatus", model.PostStatus);
-            parameters.Add("@CommentStatus", model.CommentStatus);
             parameters.Add("@PostModify", model.PostModify);
             parameters.Add("@PostDecription", model.PostDecription);
             parameters.Add("@Image", model.Image);

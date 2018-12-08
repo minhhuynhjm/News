@@ -22,8 +22,6 @@ namespace News.DTO
 
         public bool PostStatus { get; set; }
 
-        public bool CommentStatus { get; set; }
-
         public string Image { get; set; }
 
         public string Tag { get; set; }
@@ -49,8 +47,6 @@ namespace News.DTO
         public string PostContent { get; set; }
 
         public bool PostStatus { get; set; }
-
-        public bool CommentStatus { get; set; }
 
         public string Image { get; set; }
 

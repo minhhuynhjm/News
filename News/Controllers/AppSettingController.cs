@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace News.Controllers
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class AppSettingController : Controller
     {
         private readonly IAppSettingsRepository _appSettingsRepo;
@@ -52,6 +53,7 @@ namespace News.Controllers
             return Json(response);
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> LoadInfo()
         {
             var result = await _appSettingsRepo.GetAllAsync();

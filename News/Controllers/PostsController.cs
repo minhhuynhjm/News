@@ -94,7 +94,6 @@ namespace News.Controllers
                 // set automatic datetime
                 vm.PostDate = DateTime.Now.ToString();
                 vm.PostModify = DateTime.Now.ToString();
-                vm.CommentStatus = false;
                 vm.PostAuthorId = int.Parse(User.Identity.GetUserId());
 
                 var model = new Posts
@@ -149,7 +148,6 @@ namespace News.Controllers
                 PostModify = model.PostModify,
                 PostTitle = model.PostTitle,
                 PostStatus = model.PostStatus,
-                CommentStatus = model.CommentStatus,
                 Image = model.Image,
                 Tag = model.Tag,
                 CategoryId = model.CategoryId
@@ -191,7 +189,6 @@ namespace News.Controllers
                     PostModify = DateTime.Now.ToString(),
                     PostTitle = vm.PostTitle,
                     PostStatus = vm.PostStatus,
-                    CommentStatus = vm.CommentStatus,
                     CategoryId = vm.CategoryId,
                     Image = vm.Image,
                     Tag = vm.Tag

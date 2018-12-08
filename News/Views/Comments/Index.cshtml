@@ -26,7 +26,6 @@
                 <th>@Html.DisplayNameFor(model => model.CommentAuthor)</th>
                 <th>@Html.DisplayNameFor(model => model.CommentContent)</th>
                 <th>@Html.DisplayNameFor(model => model.PostTitle)</th>
-                <th>@Html.DisplayNameFor(model => model.Status)</th>
                 <th class="text-center">Actions</th>
             </tr>
         </thead>
@@ -83,18 +82,10 @@
                     }
                 },
                 {
-                    data: null, orderable: true, name:"Status", render: function (data, type, full) {
-                        if (data.Status) {
-                            return '<span class="label bg-success-400">Approve</span>';
-                        }
-                        return '<span class="label bg-danger">Pending</span>';
-                    }
-                },
-                {
                     data: null, orderable: false, render: function (data, type, full) {
                         return '<div class="btn-group">' +
                             '<button onclick=previewClicked(' + data.CommentId + '); class="btn btn-default"><i class="icon-eye"></i></button>' +
-                            '<button onclick=editClicked(' + data.CommentId + '); class="btn btn-warning"><i class="icon-checkmark-circle2"></i></button>' +
+                            //'<button onclick=editClicked(' + data.CommentId + '); class="btn btn-warning"><i class="icon-checkmark-circle2"></i></button>' +
                             '<button onclick=deleteClicked(' + data.CommentId + '); class="btn btn-danger"><i class="icon-x"></i></button>' +
                             '</div>' +
                             '';

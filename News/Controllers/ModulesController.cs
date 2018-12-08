@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace News.Controllers
 {
+    [Authorize(Roles = "Admin, Editor")]
     public class ModulesController : Controller
     {
         private readonly IModulesRepository _modulesRepo;
@@ -64,6 +65,7 @@ namespace News.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult> _ListModules()
         {
             var result = await _modulesRepo.GetAllAsync();
