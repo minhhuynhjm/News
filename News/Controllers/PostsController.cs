@@ -33,6 +33,33 @@ namespace News.Controllers
             return View();
         }
 
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            string path;
+            string saveloc = "~/Image/";
+            string relativeloc = "/Image/";
+            string filename = file.FileName;
+
+            if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    path = Path.Combine(HttpContext.Server.MapPath(saveloc), Path.GetFileName(filename));
+                    file.SaveAs(path);
+                }
+                catch (Exception e)
+                {
+                    return Json(new { location = Url.Content("~/Image/" + filename) }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return Json(new { location = Url.Content("~/Image/" + filename) }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { location = Url.Content("~/Image/" + filename) }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult LoadData()
         {
             try
