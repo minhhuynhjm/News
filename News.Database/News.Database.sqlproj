@@ -62,6 +62,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\DB" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Comments.sql" />
@@ -116,5 +117,8 @@
     <Build Include="dbo\Stored Procedures\usp_Modules_ReadById.sql" />
     <Build Include="dbo\Stored Procedures\usp_Modules_Delete.sql" />
     <Build Include="dbo\Stored Procedures\usp_Chart_ReadToday.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\DB\TieuLuan.bak" />
   </ItemGroup>
 </Project>

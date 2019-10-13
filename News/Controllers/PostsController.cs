@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace News.Controllers
 {
-    [Authorize(Roles = "Admin, Editor")]
+    [Authorize]
     public class PostsController : Controller
     {
         private readonly IPostsRepository _postRepo;
