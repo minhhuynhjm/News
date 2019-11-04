@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -8,7 +12,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using News.Common;
 using News.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace News.Controllers
 {
@@ -69,6 +76,12 @@ namespace News.Controllers
             //{
             //    return View(model);
             //}
+            if (!await ReCaptchaPassed(Request.Form["captcha"]))
+            {
+                ModelState.AddModelError(string.Empty, "You failed the CAPTCHA.");
+                return View();
+            }
+
 
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
@@ -85,6 +98,36 @@ namespace News.Controllers
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
+            }
+        }
+
+        public static async Task<bool> ReCaptchaPassed(string gRecaptchaResponse)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                CatchaModel model = new CatchaModel
+                {
+                    secret = Captcha.GoogleRecaptchaSecretKey_v3,
+                    response = gRecaptchaResponse
+                };
+
+                string url = "https://www.google.com/recaptcha/api/siteverify";
+                HttpContent content = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("secret", model.secret),
+                    new KeyValuePair<string, string>("response", model.response),
+                });
+
+                var response = await httpClient.PostAsync(url, content);
+                var json =  response.Content.ReadAsStringAsync().Result;
+
+                var JSONdata = JsonConvert.DeserializeObject<CatchaRespose>(json);
+                if (!JSONdata.Success)
+                    return false;
+
+                return true;
             }
         }
 

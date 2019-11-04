@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using News.CustomAttribute;
 using News.DTO;
 using News.Interface;
 using News.Models;
@@ -69,6 +70,7 @@ namespace News.Controllers
         }
 
         [HttpPost]
+        [CaptchaAttribute]
         public async Task<ActionResult> Create(CategoryViewModel vm)
         {
             var model = new Categories

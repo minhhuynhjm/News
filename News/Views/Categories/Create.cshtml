@@ -10,10 +10,12 @@
 @{
     var parent = (int?)ViewBag.Parent;
     var parentCategoryName = (string)ViewBag.ParentCategoryName;
+    string site_key = News.Common.Captcha.GoogleRecaptchaSiteKey_v2;
 }
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @TempData["InvalidCaptcha"];
     <div class="panel panel-primary">
         <div class="panel-heading panel-head">Categories</div>
         <div id="frm-author" class="panel-body">
@@ -47,6 +49,7 @@
                 @Html.HiddenFor(m => m.CategoryId)
                 @Html.ValidationMessage("Parent")
             </div>
+            <div class="g-recaptcha" data-sitekey="@site_key"></div>
             <div class="modal-footer">
                 <input type="submit" value="Add" class="btn btn-success" />
                 @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-danger" })
@@ -54,3 +57,4 @@
         </div>
     </div>
 }
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
