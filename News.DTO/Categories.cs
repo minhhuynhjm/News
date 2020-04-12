@@ -14,6 +14,6 @@ namespace News.DTO
 
         public string Decription { get; set; }
 
-        public int Parent { get; set; }
+        public int Parent { get; set; } = 0;
     }
 }
