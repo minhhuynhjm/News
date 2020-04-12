@@ -170,21 +170,5 @@ namespace News.ControllerApi
             return Ok(data);
         }
 
-        [Route("Categories")]
-        [HttpPost]
-        public async Task<IHttpActionResult> Create(Categories model)
-        {
-            var result = await _categoriesRepo.CreateAsync(model);
-
-            if (result)
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
     }
 }

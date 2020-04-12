@@ -1,4 +1,5 @@
-﻿using News.Interface;
+﻿using News.DTO;
+using News.Interface;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -49,6 +50,21 @@ namespace News.ControllerApi
             //}).ToList();
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> Create(Categories model)
+        {
+            var result = await _categoriesRepo.CreateAsync(model);
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
